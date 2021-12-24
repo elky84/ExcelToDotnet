@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using Newtonsoft.Json;
+##USING##
+
+namespace ##NAMESPACE##
+{
+    public class ##CLASS##
+    {
+        ##INSERT##
+    }
+}

@@ -1,0 +1,10 @@
+﻿##USING##
+
+namespace ##NAMESPACE##
+{
+	##ATTRIBUTE##
+    public enum ##CLASS##
+    {
+        ##INSERT##
+    }
+}
