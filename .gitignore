@@ -6,3 +6,9 @@ bin
 obj
 
 Properties/
+Pack/
+Publish/
+
+publish*.bat
+
+*.tar
