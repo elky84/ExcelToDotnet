@@ -50,7 +50,7 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
-## Sample Excel
+## Sample Excel (xlsx)
 
 <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Character.xlsx>
 

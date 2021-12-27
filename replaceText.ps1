@@ -1,5 +1,5 @@
-$PrevVersion='1.0.2'
-$NextVersion='1.0.3'
+$PrevVersion='1.0.3'
+$NextVersion='1.0.4'
 
 ((Get-Content -path ExcelToDotnet\ExcelToDotnet.csproj -Raw) -replace $PrevVersion,$NextVersion) | Set-Content -Path ExcelToDotnet\ExcelToDotnet.csproj
 

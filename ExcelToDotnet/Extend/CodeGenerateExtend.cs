@@ -28,11 +28,6 @@ namespace ExcelToDotnet.Extend
                 strings.Insert(insertIndex, string.Empty);
 
                 strings.Insert(insertIndex, string.Format("        public {0} {1}", dataType, dt.Columns[n].ColumnName) + " { get; set; }");
-                if (dt.Columns[n].ColumnName == "Id")
-                {
-                    strings.Insert(insertIndex, "        [Key]");
-                }
-
                 if (dataType.EndsWith("Type") || dataType.EndsWith("Type?"))
                 {
                     strings.Insert(insertIndex, string.Format($"        [JsonConverter(typeof(JsonEnumConverter<{dataType.RemoveSpecialCharacters()}>))]"));
@@ -40,10 +35,6 @@ namespace ExcelToDotnet.Extend
                 else if (dataType.StartsWith("List") && dataType.EndsWith("Type>"))
                 {
                     strings.Insert(insertIndex, string.Format($"        [JsonConverter(typeof(JsonEnumsConverter<{dataType.ExtractDataTypeInList()}>))]"));
-                }
-                else if (plainDataType.StartsWith("*"))
-                {
-                    strings.Insert(insertIndex, string.Format($"        [Key]"));
                 }
             }
 
