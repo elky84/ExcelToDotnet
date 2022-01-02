@@ -44,13 +44,15 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 
 ## Implment CLI. (link ExcelToDotnet)
 
+Release: <https://github.com/elky84/ExcelToDotnet/releases>
+
 Reference : <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Program.cs>, <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli>
 
 ## Sample Excel (xlsx)
 
 <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Character.xlsx>
 
-## Execute
+## Execute CLI options
 
 ### use single excel file (-f)
 `ExcelCli -f {fileName}`
