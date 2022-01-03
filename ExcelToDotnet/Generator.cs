@@ -194,9 +194,8 @@ namespace ExcelToDotnet
             using (FileStream vStream = File.Create($"{opts.Output}/enum/{tableName}.cs"))
             {
                 using StreamWriter outputFile = new StreamWriter(vStream, new UTF8Encoding(true));
-                var strings = File.ReadAllLines("Enum.cs.template", Encoding.UTF8).ToList();
 
-                strings.GenerateEnumCode(outputFile, dt, patterns);
+                CodeTemplate.Enum().GenerateEnumCode(outputFile, dt, patterns);
             }
             return true;
         }
@@ -328,8 +327,8 @@ namespace ExcelToDotnet
                             };
 
             using var outputFile = new StreamWriter($"{opts.Output }/{keyword}/{tableName}.cs");
-            var strings = File.ReadAllLines("Class.cs.template", Encoding.UTF8).ToList();
-            strings.GenerateCode(outputFile, dt, dataTypes, patterns);
+
+            CodeTemplate.Class().GenerateCode(outputFile, dt, dataTypes, patterns);
             return true;
         }
     }
