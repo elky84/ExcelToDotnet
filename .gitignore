@@ -12,3 +12,5 @@ Publish/
 publish*.bat
 
 *.tar
+
+*.ps1

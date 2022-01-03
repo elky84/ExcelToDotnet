@@ -1,20 +1,4 @@
-[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
-<img src="https://img.shields.io/badge/made%20with-.NET 6-brightgreen.svg" alt="made with C# .NET 6">
-
-![GitHub forks](https://img.shields.io/github/forks/elky84/ExcelToDotnet.svg?style=social&label=Fork)
-![GitHub stars](https://img.shields.io/github/stars/elky84/ExcelToDotnet.svg?style=social&label=Stars)
-![GitHub watchers](https://img.shields.io/github/watchers/elky84/ExcelToDotnet.svg?style=social&label=Watch)
-![GitHub followers](https://img.shields.io/github/followers/elky84.svg?style=social&label=Follow)
-
-![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)
-![GitHub repo size in bytes](https://img.shields.io/github/repo-size/elky84/ExcelToDotnet.svg)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/elky84/ExcelToDotnet.svg)
-
-# ExcelToDotnet
-
-## Nuget.org
-
-<https://www.nuget.org/packages/ExcelToDotnet/>
+# Usage
 
 ## introduce
 
@@ -50,19 +34,9 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
-## Sample Excel (xlsx)
+## Sample Excel
 
 <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Character.xlsx>
-
-## add package
-
-`dotnet add package ExcelToDotnet`
-
-## Implment CLI. (link ExcelToDotnet)
-
-Release: <https://github.com/elky84/ExcelToDotnet/releases>
-
-Reference : <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Program.cs>, <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli>
 
 ## install cli global tool
 
