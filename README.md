@@ -64,7 +64,31 @@ Release: <https://github.com/elky84/ExcelToDotnet/releases>
 
 Reference : <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Program.cs>, <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli>
 
-## Execute CLI options
+## install cli global tool
+
+require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
+
+`dotnet tool install -g ExcelCli`
+
+## global tool usage
+
+execute file name `excel2dotnet`
+
+### use single excel file (-f)
+`excel2dotnet -f {fileName}`
+
+### use target directory (-d)
+`excel2dotnet -d {directory}`
+
+### use enum generate mode (-e)
+`excel2dotnet -d {directory} -e`
+
+### use validation mode (-v)
+`excel2dotnet d {directory} -v`
+
+## Execute CLI options (execute file)
+
+execute file name `ExcelCli`
 
 ### use single excel file (-f)
 `ExcelCli -f {fileName}`
