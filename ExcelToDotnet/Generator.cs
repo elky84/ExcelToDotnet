@@ -271,7 +271,7 @@ namespace ExcelToDotnet
             {
                 foreach (var dataTable in dataTableEx)
                 {
-                    GenerateCsAndJson(fileName, dataTable.Value.Target.ToCamelCase(), tableName, opts, dataTable.Value!.DataTable!, dataTable.Value!.DataTypes!);
+                    GenerateCsAndJson(fileName, dataTable.Value.Target, tableName, opts, dataTable.Value!.DataTable!, dataTable.Value!.DataTypes!);
                 }
             }
             else
@@ -280,21 +280,21 @@ namespace ExcelToDotnet
                 {
                     foreach (var dataTable in dataTableEx)
                     {
-                        dataTable.Value!.DataTable!.ValidateValue(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                        dataTable.Value!.DataTable!.ValidateValue(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
                         if (!tableName.StartsWith("Const"))
                         {
-                            dataTable.Value!.DataTable!.ValidateReference(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                            dataTable.Value!.DataTable!.ValidateReference(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                            dataTable.Value!.DataTable!.ValidateReferenceEnum(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                            dataTable.Value!.DataTable!.ValidateReferenceEnum(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                            dataTable.Value!.DataTable!.ValidateSubIndex(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                            dataTable.Value!.DataTable!.ValidateSubIndex(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                            dataTable.Value!.DataTable!.ValidationProbability(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                            dataTable.Value!.DataTable!.ValidationProbability(dataTable.Value.Target, dataTable.Value!.DataTypes!);
                         }
                         else
                         {
-                            dataTable.Value!.DataTable!.ValidationConst(dataTable.Value.Target.ToCamelCase(), dataTable.Value!.DataTypes!);
+                            dataTable.Value!.DataTable!.ValidationConst(dataTable.Value.Target, dataTable.Value!.DataTypes!);
                         }
                     }
                 }
