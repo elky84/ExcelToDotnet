@@ -45,6 +45,9 @@ namespace ExcelToDotnet
         [Option('i', "ignore", Required = false, HelpText = "Ignore general validation")]
         public bool Ignore { get; set; }
 
+        [Option('l', "nullable", Required = false, HelpText = "set nullable")]
+        public bool Nullable { get; set; }
+
         public static void HandleParseError(IEnumerable<Error> errs)
         {
             foreach (var err in errs)

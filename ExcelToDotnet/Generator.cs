@@ -327,8 +327,7 @@ namespace ExcelToDotnet
                             };
 
             using var outputFile = new StreamWriter($"{opts.Output }/{keyword}/{tableName}.cs");
-
-            CodeTemplate.Class().GenerateCode(outputFile, dt, dataTypes, patterns);
+            CodeTemplate.Class().GenerateCode(outputFile, dt, dataTypes, patterns, opts.Nullable);
             return true;
         }
     }

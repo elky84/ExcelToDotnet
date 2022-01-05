@@ -8,7 +8,7 @@
         }
 
 
-        public static List<KeyValuePair<string, string>> Convert(this List<string?> dataTypes)
+        public static List<KeyValuePair<string, string>> Convert(this List<string?> dataTypes, bool nullable)
         {
             return dataTypes.ConvertAll(x =>
             {
@@ -25,11 +25,11 @@
                 var str = (string)x;
                 if (str.StartsWith("$"))
                 {
-                    return new KeyValuePair<string, string>(str, "string");
+                    return new KeyValuePair<string, string>(str, nullable ? "string?" : "string");
                 }
                 if (str.StartsWith("List") && str.Contains("$"))
                 {
-                    return new KeyValuePair<string, string>(str, "List<string>");
+                    return new KeyValuePair<string, string>(str, nullable ? "List<string>?" : "List<string>");
                 }
                 if (str.StartsWith("~"))
                 {
@@ -100,7 +100,9 @@
             for (int x = 0; x < dataTypes.Count; ++x)
             {
                 var value = dataTypes[x].ToStringValue();
-                if (value.EndsWith("Type") || value.EndsWith("Type?") || (value.StartsWith("List") && value.EndsWith("Type>")))
+                if ((value.StartsWith("List") && (value.EndsWith("Type>?") || value.EndsWith("Type>"))) || 
+                    value.EndsWith("Type") || 
+                    value.EndsWith("Type?"))
                 {
                     list.Add(new KeyValuePair<int, string>(x, value));
                 }

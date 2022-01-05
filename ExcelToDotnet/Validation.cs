@@ -482,6 +482,7 @@ namespace ExcelToDotnet
             switch (qualifiedTypeName)
             {
                 case "string":
+                case "string?":
                 case "float":
                 case "float?":
                 case "double":
@@ -509,6 +510,7 @@ namespace ExcelToDotnet
             switch (qualifiedTypeName)
             {
                 case "string":
+                case "string?":
                     return true;
                 case "float":
                     return float.TryParse(str, out var _);
@@ -549,7 +551,7 @@ namespace ExcelToDotnet
 
         public static bool IsListType(string qualifiedTypeName)
         {
-            return qualifiedTypeName.StartsWith("List") && qualifiedTypeName.EndsWith(">");
+            return qualifiedTypeName.StartsWith("List") && ( qualifiedTypeName.EndsWith(">") || qualifiedTypeName.EndsWith(">?"));
         }
 
         public static bool IsKeyword(string dataType)
