@@ -6,6 +6,7 @@
         {
             return new List<string> {
                         "##USING##",
+                        "",
                         "namespace ##NAMESPACE##",
                         "{",
                         "\t##ATTRIBUTE##",

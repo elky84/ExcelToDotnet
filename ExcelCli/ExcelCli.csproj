@@ -6,10 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+	<Authors>elky</Authors>
+	<Company>elky</Company>
+
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>excel2dotnet</ToolCommandName>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
-
+	
+	<PackageDescription>Excel To Dotnet</PackageDescription>
+    <RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
