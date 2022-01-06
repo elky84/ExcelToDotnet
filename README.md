@@ -72,7 +72,7 @@ require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
 
 ## global tool usage
 
-execute file name `excel2dotnet`
+execute command name is `excel2dotnet`
 
 ### use single excel file (-f)
 `excel2dotnet -f {fileName}`
@@ -86,21 +86,12 @@ execute file name `excel2dotnet`
 ### use validation mode (-v)
 `excel2dotnet d {directory} -v`
 
-## Execute CLI options (execute file)
+### use nullable mode (-l) => for .NET 6 or later
+`excel2dotnet d {directory} -l`
 
-execute file name `ExcelCli`
+## Execute CLI options (execute build file)
 
-### use single excel file (-f)
-`ExcelCli -f {fileName}`
-
-### use target directory (-d)
-`ExcelCli -d {directory}`
-
-### use enum generate mode (-e)
-`ExcelCli -d {directory} -e`
-
-### use validation mode (-v)
-`ExcelCli d {directory} -v`
+execute file name `excel2dotnet` instead of `ExcelCli`
 
 ### all options
 - <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelToDotnet/Options.cs>
