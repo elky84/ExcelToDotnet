@@ -13,9 +13,12 @@
 
 	<PackageDescription>Excel To Dotnet</PackageDescription>
     <RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
+		
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
+	<None Include="..\LICENSE" Pack="true" PackagePath="\"/>
     <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
