@@ -14,7 +14,8 @@ namespace ExcelToDotnet
 
         public static void Execute(Options opts)
         {
-            if (opts.CleanUp && Directory.Exists(opts.Output))
+            if ((opts.CleanUp || opts.Wide)
+                && Directory.Exists(opts.Output))
             {
                 opts.Output.DeleteDirectory();
             }
@@ -37,11 +38,12 @@ namespace ExcelToDotnet
 
             foreach (var fileName in files)
             {
-                if (opts.Enum)
+                if (opts.Enum || opts.Wide)
                 {
                     Generator.GenerateEnum(fileName, opts);
                 }
-                else
+
+                if (!opts.Enum || opts.Wide)
                 {
                     Generator.GenerateTable(fileName, opts);
                 }
@@ -158,18 +160,12 @@ namespace ExcelToDotnet
 
         public static bool GenerateEnum(string tableName, Options opts, DataTable dt)
         {
-            if (!opts.Ignore)
-            {
-                Validation.ValidateTableName(tableName);
-            }
+            Validation.ValidateTableName(tableName);
 
             dt.TableName = tableName;
 
-            if (!opts.Ignore)
-            {
-                dt.ValidateId("Text", false);
-                dt.ValidateId("Code", true);
-            }
+            dt.ValidateId("Text", false);
+            dt.ValidateId("Code", true);
 
             string jsonFileName = $"{opts.Output}/enumJson/{tableName}.json";
             if (File.Exists(jsonFileName))
@@ -210,12 +206,9 @@ namespace ExcelToDotnet
 
             dt.RemoveByTag(opts);
 
-            if (!opts.Ignore)
-            {
-                Validation.ValidateTableName(dt.TableName);
-                dt.ValidateDuplicate();
-                dt.ValidateColumnName();
-            }
+            Validation.ValidateTableName(dt.TableName);
+            dt.ValidateDuplicate();
+            dt.ValidateColumnName();
 
             var dataTypes = dt.Rows[0].ItemArray.Select(x => (x as string)!).ToList();
             var targetsArray = dt.Rows[1].ItemArray;
@@ -224,10 +217,7 @@ namespace ExcelToDotnet
             dt.Rows.RemoveAt(0);
             dt.Rows.RemoveAt(0);
 
-            if (!opts.Ignore)
-            {
-                dt.ValidateId("Id", false);
-            }
+            dt.ValidateId("Id", false);
 
             var targetGroups = targetsArray.ToList().GroupBy(x => x).Select(x => x.Key).ToList();
             var dataTableEx = new Dictionary<string, DataTableEx>();
@@ -258,44 +248,38 @@ namespace ExcelToDotnet
                 }
             }
 
-            if (!opts.Ignore)
+            foreach (var dataTable in dataTableEx)
             {
-                foreach (var dataTable in dataTableEx)
-                {
-                    dataTable.Value!.DataTable!.ValidateDataType(dataTable.Key, dataTable.Value!.DataTypes!);
-                }
+                dataTable.Value!.DataTable!.ValidateDataType(dataTable.Key, dataTable.Value!.DataTypes!);
             }
 
-
-            if (!opts.Validation)
+            if (!opts.Validation || opts.Wide)
             {
                 foreach (var dataTable in dataTableEx)
                 {
                     GenerateCsAndJson(fileName, dataTable.Value.Target, tableName, opts, dataTable.Value!.DataTable!, dataTable.Value!.DataTypes!);
                 }
             }
-            else
+
+            if(opts.Validation)
             {
-                if (!opts.Ignore)
+                foreach (var dataTable in dataTableEx)
                 {
-                    foreach (var dataTable in dataTableEx)
+                    dataTable.Value!.DataTable!.ValidateValue(dataTable.Value.Target, dataTable.Value!.DataTypes!);
+
+                    if (!tableName.StartsWith("Const"))
                     {
-                        dataTable.Value!.DataTable!.ValidateValue(dataTable.Value.Target, dataTable.Value!.DataTypes!);
+                        dataTable.Value!.DataTable!.ValidateReference(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                        if (!tableName.StartsWith("Const"))
-                        {
-                            dataTable.Value!.DataTable!.ValidateReference(dataTable.Value.Target, dataTable.Value!.DataTypes!);
+                        dataTable.Value!.DataTable!.ValidateReferenceEnum(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                            dataTable.Value!.DataTable!.ValidateReferenceEnum(dataTable.Value.Target, dataTable.Value!.DataTypes!);
+                        dataTable.Value!.DataTable!.ValidateSubIndex(dataTable.Value.Target, dataTable.Value!.DataTypes!);
 
-                            dataTable.Value!.DataTable!.ValidateSubIndex(dataTable.Value.Target, dataTable.Value!.DataTypes!);
-
-                            dataTable.Value!.DataTable!.ValidationProbability(dataTable.Value.Target, dataTable.Value!.DataTypes!);
-                        }
-                        else
-                        {
-                            dataTable.Value!.DataTable!.ValidationConst(dataTable.Value.Target, dataTable.Value!.DataTypes!);
-                        }
+                        dataTable.Value!.DataTable!.ValidationProbability(dataTable.Value.Target, dataTable.Value!.DataTypes!);
+                    }
+                    else
+                    {
+                        dataTable.Value!.DataTable!.ValidationConst(dataTable.Value.Target, dataTable.Value!.DataTypes!);
                     }
                 }
             }

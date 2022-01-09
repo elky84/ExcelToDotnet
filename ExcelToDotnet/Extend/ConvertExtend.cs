@@ -27,7 +27,7 @@
                 {
                     return new KeyValuePair<string, string>(str, nullable ? "string?" : "string");
                 }
-                if (str.StartsWith("List") && str.Contains("$"))
+                if (str.StartsWith("List") && str.Contains('$'))
                 {
                     return new KeyValuePair<string, string>(str, nullable ? "List<string>?" : "List<string>");
                 }

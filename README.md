@@ -50,6 +50,27 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
+## Reserved Keyword
+
+### # (Comment)
+comment or description
+
+### ! (ignore)
+ignore type check (Custom DataType) 
+
+### % (Percent)
+It should be 100 when summing the row values. dataType double
+
+### $ (Reference)
+
+Refers to the key of the sheet (table) of the string following $. (Error if associated value does not exist
+
+### ~ (SubIndex)
+
+cleanup & generate all option.
+
+This is a function to check for duplicates within a table using the same index by placing a secondary index.
+
 ## Sample Excel (xlsx)
 
 <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Character.xlsx>
@@ -95,3 +116,11 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ### all options
 - <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelToDotnet/Options.cs>
+
+
+## Version History
+
+### v1.0.19
+  * removed ignore mode
+  * added wide mode (cleanup & generate all option)
+  * fixed sub index, probability functions.

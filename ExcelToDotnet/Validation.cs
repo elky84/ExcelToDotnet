@@ -100,14 +100,16 @@ namespace ExcelToDotnet
                 var index = subIndex.Key;
                 var columnName = dt.Columns[index].ColumnName;
 
-                string refColumnName = subIndex.Value.RemoveSpecialCharacters();
-                var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == refColumnName);
-                var refColumnIndex = dt.Columns.IndexOf(refColumn);
+                string refDataType = subIndex.Value.RemoveSpecialCharacters();
+                var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == refDataType);
+                var refIndex = dt.Columns.IndexOf(refColumn);
 
                 var path = string.Format($"output/{keyword}/{dt.TableName}.json");
                 if (!File.Exists(path))
                 {
-                    Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. <Table:{dt.TableName}, 참조Id:{refColumnName}, Column:{dt.Columns[index].ColumnName}, Path:{path}>");
+                    Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. " +
+                        $"<Table:{dt.TableName}, 참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, " +
+                        $"Column:{dt.Columns[index].ColumnName}, Path:{path}>");
                     continue;
                 }
 
@@ -128,14 +130,15 @@ namespace ExcelToDotnet
 
                     if (string.IsNullOrEmpty(str))
                     {
-                        Failed($"[{keyword}] 내부 참조 과정에서 Null이 허용되지 않는데, 비어있는 데이터를 발견했습니다. <Table:{dt.TableName}, 컬럼:{dt.Columns[index].ColumnName} " +
-                            $"참조Id:{refColumnName}, Key:{str}, Id:{itemArray.ToIdString(dt)}>");
+                        Failed($"[{keyword}] 내부 참조 과정에서 Null이 허용되지 않는데, 비어있는 데이터를 발견했습니다. " +
+                            $"<Table:{dt.TableName}, 컬럼:{dt.Columns[index].ColumnName} " +
+                            $"참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, Key:{str}, Id:{itemArray.ToIdString(dt)}>");
                     }
                 }
 
                 var groupByRow = dt.Rows.Cast<DataRow>().GroupBy(x => {
-                    var left = x.ItemArray.ToArray().Get(index);
-                    var right = x.ItemArray.ToArray()[refColumnIndex];
+                    var left = x.ItemArray.ToArray()[index];
+                    var right = x.ItemArray.ToArray()[refIndex];
                     if (left == null ||
                         right == null)
                         return new KeyValuePair<string, string>(string.Empty, string.Empty);
@@ -143,9 +146,13 @@ namespace ExcelToDotnet
                     return new KeyValuePair<string, string>(left.ToStringValue(), right.ToStringValue());
                 });
 
-                foreach (var row in groupByRow.Where(g => string.IsNullOrEmpty(g.Key.Key) && g.Count() > 1).Select(y => y.Key).ToList())
+                foreach (var row in groupByRow.Where(g => !string.IsNullOrEmpty(g.Key.Key) && g.Count() > 1)
+                                              .Select(y => y.Key)
+                                              .ToList())
                 {
-                    Failed($"[{keyword}] 내부 참조 과정에서 중복된 행이 발견되었습니다. <Table:{dt.TableName}, 참조Id:{refColumnName}, Column:{columnName}, Row:{row}>");
+                    Failed($"[{keyword}] 내부 참조 과정에서 중복된 행이 발견되었습니다. " +
+                        $"<Table:{dt.TableName}, 참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, " +
+                        $"Column:{columnName}, Row:{row}>");
                 }
             }
         }
@@ -158,14 +165,16 @@ namespace ExcelToDotnet
                 var index = probability.Key;
                 var columnName = dt.Columns[index].ColumnName;
 
-                string refColumnName = probability.Value.RemoveSpecialCharacters();
-                var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == refColumnName);
-                var refColumnIndex = dt.Columns.IndexOf(refColumn);
+                string refDataType = probability.Value.RemoveSpecialCharacters();
+                var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == columnName);
+                var refIndex = dt.Columns.IndexOf(refColumn);
 
                 var path = string.Format($"output/{keyword}/{dt.TableName}.json");
                 if (!File.Exists(path))
                 {
-                    Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. <Table:{dt.TableName}, 참조Id:{refColumnName}, Column:{dt.Columns[index].ColumnName}, Path:{path}>");
+                    Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. " +
+                        $"<Table:{dt.TableName}, 참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, " +
+                        $"Column:{dt.Columns[index].ColumnName}, Path:{path}>");
                     continue;
                 }
 
@@ -184,37 +193,25 @@ namespace ExcelToDotnet
 
                     if (string.IsNullOrEmpty(str))
                     {
-                        Failed($"[{keyword}] 확률 참조 과정에서 Null이 허용되지 않는데, 비어있는 데이터를 발견했습니다. <Table:{dt.TableName}, 컬럼:{dt.Columns[index].ColumnName} " +
-                            $"참조Id:{refColumnName}, Key:{str}, Id:{dt.Rows[n].ItemArray.ToIdString(dt)}>");
+                        Failed($"[{keyword}] 확률 참조 과정에서 Null이 허용되지 않는데, 비어있는 데이터를 발견했습니다. " +
+                            $"<Table:{dt.TableName}, 컬럼:{dt.Columns[index].ColumnName}, 참조 컬럼:{refColumn}, " +
+                            $"참조Id:{refDataType}, Key:{str}, Id:{dt.Rows[n].ItemArray.ToIdString(dt)}>");
                     }
                 }
 
-                var groupByRow = dt.Rows.Cast<DataRow>().GroupBy(x => {
-                    var value = x.ItemArray.ToArray()[refColumnIndex];
+                var sum = dt.Rows.Cast<DataRow>().Sum(x => {
+                    var value = x.ItemArray.ToArray()[refIndex];
                     if (value == null)
                     {
-                        return "";
+                        return 0;
                     }
 
-                    return value.ToStringValue();
-                });
-                var invalidRows = groupByRow.Where(g =>
-                {
-                    var sum = g.Sum(v => {
-                        var value = v.ItemArray.ToArray()[index];
-                        if ( value == null)
-                        {
-                            return 0f;
-                        }
-
-                        return value.ToDoubleValue();
-                    });
-                    return sum != 100.0;
+                    return value.ToDoubleValue();
                 });
 
-                foreach (var row in invalidRows.Select(y => y.Key).ToList())
+                if (sum != 100)
                 {
-                    Failed($"[{keyword}] 확률 참조 과정에서 합산 값이 100%가 아닌 행이 발견되었습니다. <Table:{dt.TableName}, 참조Id:{refColumnName}, Column:{columnName}, Row:{row}>");
+                    Failed($"[{keyword}] 확률 참조 과정에서 합산 값이 100%가 아닌 행이 발견되었습니다. <Table:{dt.TableName}, 참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, Column:{columnName}>");
                 }
             }
         }

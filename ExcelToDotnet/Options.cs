@@ -6,19 +6,19 @@ namespace ExcelToDotnet
 {
     public partial class Options
     {
-        [Option('d', "directory", Required = false, HelpText = "Input excel file directory.")]
+        [Option('d', "directory", Required = false, HelpText = "excel file directory.")]
         public string InputDirectory { get; set; } = "";
 
-        [Option('f', "files", Required = false, HelpText = "Input excel file names.")]
+        [Option('f', "files", Required = false, HelpText = "excel file names.")]
         public IEnumerable<string> InputFiles { get; set; } = new List<string>();
 
-        [Option('n', "namespace", Required = false, HelpText = "Input namespace")]
+        [Option('n', "namespace", Required = false, HelpText = "namespace")]
         public string NameSpace { get; set; } = "DEFAULT_NAMESPACE";
 
-        [Option('o', "output", Required = false, HelpText = "Input output directory")]
+        [Option('o', "output", Required = false, HelpText = "output directory")]
         public string Output { get; set; } = "output";
 
-        [Option('u', "using", Required = false, HelpText = "Input using statements")]
+        [Option('u', "using", Required = false, HelpText = "using statements")]
         public IEnumerable<string> Usings { get; set; } = new List<string>();
 
         [Option('c', "cleanup", Required = false, HelpText = "cleanup output directory")]
@@ -42,11 +42,11 @@ namespace ExcelToDotnet
         [Option('v', "validation", Required = false, HelpText = "validation mode")]
         public bool Validation { get; set; }
 
-        [Option('i', "ignore", Required = false, HelpText = "Ignore general validation")]
-        public bool Ignore { get; set; }
-
         [Option('l', "nullable", Required = false, HelpText = "set nullable")]
         public bool Nullable { get; set; }
+
+        [Option('w', "wide", Required = false, HelpText = "wide mode (This option runs cleanup, enum, code and json functions at once.)")]
+        public bool Wide { get; set; }
 
         public static void HandleParseError(IEnumerable<Error> errs)
         {
