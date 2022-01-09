@@ -28,7 +28,7 @@
                         "",
                         "namespace ##NAMESPACE##",
                         "{",
-                        "\tpublic class ##CLASS##",
+                        "\tpublic partial class ##CLASS##",
                         "\t{",
                         "\t##INSERT##",
                         "\t}",

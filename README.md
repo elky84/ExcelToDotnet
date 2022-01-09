@@ -120,7 +120,10 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.20
+* generate class to partial class
+
 ### v1.0.19
-  * removed ignore mode
-  * added wide mode (cleanup & generate all option)
-  * fixed sub index, probability functions.
+* removed ignore mode
+* added wide mode (cleanup & generate all option)
+* fixed sub index, probability functions.
