@@ -12,6 +12,7 @@
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>excel2dotnet</ToolCommandName>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<Version>1.0.20</Version>
 	
 	<PackageDescription>Excel To Dotnet</PackageDescription>
     <RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
