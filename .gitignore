@@ -9,8 +9,6 @@ Properties/
 Pack/
 Publish/
 
-publish*.bat
-
 *.tar
 
 *.ps1
