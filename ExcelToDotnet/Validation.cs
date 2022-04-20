@@ -567,6 +567,11 @@ namespace ExcelToDotnet
                     continue;
                 }
 
+                if (File.Exists($"output/{keyword}/{dataType}.Json"))
+                {
+                    continue;
+                }
+
                 if (!dataType.EndsWith("Type") && !dataType.EndsWith("Type?"))
                 {
                     Failed($"[{keyword}] 참조 컬럼이 아니고, 기본형 타입, List 타입이 아니라면, Type 또는 Type? 으로 끝나야 합니다. <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
@@ -590,7 +595,8 @@ namespace ExcelToDotnet
 
         public static void ValidateTableName(string name)
         {
-            if (false == CodeDomProvider.CreateProvider("C#").IsValidIdentifier(name))
+            if (false == CodeDomProvider.CreateProvider("C#").IsValidIdentifier(name) &&
+                            !name.EndsWith("!"))
             {
                 Failed($"사용 불가능한 테이블명입니다. <Table:{name}>");
             }
@@ -610,7 +616,9 @@ namespace ExcelToDotnet
                 Failed($"컬럼명은 카멜 케이스만 지원합니다. <Table:{dt.TableName}, Column:{col}>");
             }
 
-            if (!dt.TableName.StartsWith("Const") && false == dt.Columns.Cast<DataColumn>().Where(x => x.ColumnName.Contains("Id")).Any())
+            if (!dt.TableName.EndsWith("!") &&
+                !dt.TableName.StartsWith("Const") &&
+                false == dt.Columns.Cast<DataColumn>().Where(x => x.ColumnName.Contains("Id")).Any())
             {
                 Failed($"테이블에 Id 컬럼이 포함되지 않았습니다. <Table:{dt.TableName}>");
             }

@@ -54,7 +54,15 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
-## Reserved Keyword
+## Table Name (Sheet Name) Reserved Keyword
+
+### # (Comment)
+comment or description
+
+### ! (ignore)
+ignore type check (Custom DataType) 
+
+## Data Type Reserved Keyword
 
 ### # (Comment)
 comment or description
@@ -123,6 +131,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 
 ## Version History
+
+### v1.0.21
+* support custom table type. (use with '!')
 
 ### v1.0.20
 * generate class to partial class

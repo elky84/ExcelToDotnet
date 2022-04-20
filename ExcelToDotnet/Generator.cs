@@ -1,11 +1,7 @@
 ﻿using ExcelToDotnet.Extend;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ExcelToDotnet
 {
@@ -217,7 +213,8 @@ namespace ExcelToDotnet
             dt.Rows.RemoveAt(0);
             dt.Rows.RemoveAt(0);
 
-            dt.ValidateId("Id", false);
+            if (!dt.TableName.EndsWith("!"))
+                dt.ValidateId("Id", false);
 
             var targetGroups = targetsArray.ToList().GroupBy(x => x).Select(x => x.Key).ToList();
             var dataTableEx = new Dictionary<string, DataTableEx>();
