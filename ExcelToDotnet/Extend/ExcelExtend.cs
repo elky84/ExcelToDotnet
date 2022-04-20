@@ -1,6 +1,7 @@
 ﻿using ExcelDataReader;
 using Newtonsoft.Json;
 using System.Data;
+using System.Numerics;
 
 namespace ExcelToDotnet.Extend
 
@@ -138,6 +139,41 @@ namespace ExcelToDotnet.Extend
             }
         }
 
+        public static Vector3? StringToVector3(this string sVector)
+        {
+            if (sVector.StartsWith("<") && sVector.EndsWith(">"))
+            {
+                sVector = sVector[1..^1];
+            }
+            var sArray = sVector.Split(',');
+            if (sArray.Length != 3)
+            {
+                return null;
+            }
+
+            return new Vector3(
+                float.Parse(sArray[0]),
+                float.Parse(sArray[1]),
+                float.Parse(sArray[2]));
+        }
+
+        public static Vector2? StringToVector2(this string sVector)
+        {
+            if (sVector.StartsWith("<") && sVector.EndsWith(">"))
+            {
+                sVector = sVector[1..^1];
+            }
+            var sArray = sVector.Split(',');
+            if (sArray.Length != 2)
+            {
+                return null;
+            }
+
+            return new Vector2(
+                float.Parse(sArray[0]),
+                float.Parse(sArray[1]));
+        }
+
         public static IEnumerable<Dictionary<string, object>> MapDatasetData(this DataTable dt, List<string>? dataTypes = null)
         {
             foreach (DataRow dr in dt.Rows)
@@ -145,13 +181,14 @@ namespace ExcelToDotnet.Extend
                 var row = new Dictionary<string, object>();
                 foreach (DataColumn col in dt.Columns)
                 {
-                    if (int.TryParse(dr[col].ToString(), out int value))
+                    if (int.TryParse(dr[col].ToString(), out var value))
                     {
                         row.Add(col.ColumnName, value);
                     }
                     else
                     {
-                        if (dataTypes != null && dataTypes[dt.Columns.IndexOf(col)].StartsWith("List"))
+                        var dataType = dataTypes != null ? dataTypes[dt.Columns.IndexOf(col)] : string.Empty;
+                        if (dataType.StartsWith("List"))
                         {
                             try
                             {
@@ -166,7 +203,7 @@ namespace ExcelToDotnet.Extend
                                     if (objects == null)
                                     {
                                         LogExtend.Color(ConsoleColor.Red, ConsoleColor.Black, $"List 형태의 데이터가 아닙니다. 대괄호[]로 묶여있는지 확인해주세요. " +
-                                            $"<Table:{dt.TableName}, DataType: {dataTypes[dt.Columns.IndexOf(col)]}, Column:{dr[col]}>");
+                                            $"<Table:{dt.TableName}, DataType: {dataType}, Column:{dr[col]}>");
                                     }
                                     else
                                     {
@@ -177,9 +214,33 @@ namespace ExcelToDotnet.Extend
                             catch (Exception e)
                             {
                                 LogExtend.Color(ConsoleColor.Red, ConsoleColor.Black, $"List 형태의 데이터가 아닙니다. 대괄호[]로 묶여있는지, 문자열의 경우 따옴표로 묶여있는지, 콤마 구분자를 잘 사용했는지 등을 확인해주세요. " +
-                                    $"<Table:{dt.TableName}, DataType: {dataTypes[dt.Columns.IndexOf(col)]}, Column:{dr[col]}, Exception:{e}>");
+                                    $"<Table:{dt.TableName}, DataType: {dataType}, Column:{dr[col]}, Exception:{e}>");
                                 throw;
                             }
+                        }
+                        else if (dataType.StartsWith("Vector2"))
+                        {
+                            var vector2 = ((string)dr[col]).StringToVector2();
+                            if (vector2 == null)
+                            {
+                                LogExtend.Color(ConsoleColor.Red, ConsoleColor.Black, $"Vector타입은 <> 로 묶여 있어야 합니다. 콤마 구분자도 확인해주세요 " +
+                                    $"<Table:{dt.TableName}, DataType: {dataType}, Column:{dr[col]}>");
+                                continue;
+                            }
+
+                            row.Add(col.ColumnName, vector2);
+                        }
+                        else if (dataType.StartsWith("Vector3"))
+                        {
+                            var vector3 = ((string)dr[col]).StringToVector3();
+                            if (vector3 == null)
+                            {
+                                LogExtend.Color(ConsoleColor.Red, ConsoleColor.Black, $"Vector타입은 <> 로 묶여 있어야 합니다. 콤마 구분자도 확인해주세요 " +
+                                    $"<Table:{dt.TableName}, DataType: {dataType}, Column:{dr[col]}>");
+                                continue;
+                            }
+
+                            row.Add(col.ColumnName, vector3);
                         }
                         else
                         {

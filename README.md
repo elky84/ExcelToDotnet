@@ -129,8 +129,10 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 ### all options
 - <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelToDotnet/Options.cs>
 
-
 ## Version History
+
+### v1.0.23
+* Support System.Numerics Vector2 and Vector3
 
 ### v1.0.22
 * Table EndsWith mark location to StartsWith.

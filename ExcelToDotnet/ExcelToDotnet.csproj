@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	
 	<PackageId>ExcelToDotnet</PackageId>
-	<Version>1.0.22</Version>
+	<Version>1.0.23</Version>
 	<Authors>elky</Authors>
 	<Company>elky</Company>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
