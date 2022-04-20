@@ -54,13 +54,15 @@ Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
 테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
+# Excel Keyword Introduce (English)
+
 ## Table Name (Sheet Name) Reserved Keyword
 
 ### # (Comment)
 comment or description
 
 ### ! (ignore)
-ignore type check (Custom DataType) 
+ignore id column check
 
 ## Data Type Reserved Keyword
 
@@ -82,6 +84,42 @@ Refers to the key of the sheet (table) of the string following $. (Error if asso
 cleanup & generate all option.
 
 This is a function to check for duplicates within a table using the same index by placing a secondary index.
+
+# 엑셀 키워드 설명 (한글)
+
+## 테이블명(시트명) 예약어
+
+### # 설명
+
+코멘트 또는 설명
+
+### ! (무시하다)
+
+Id 컬럼 존재 여부 확인 무시
+
+## 데이터 타입 예약어
+
+### # 설명
+
+코멘트 또는 설명
+
+### ! 무시하다
+
+primitive type이 아닌, using을 통해 각종 내장 타입 혹은 외부 미리 선언된 타입을 사용하고자 할 경우 사용 (Custom DataType)
+
+### % 퍼센트
+
+행 값을 합산할 때 100이어야 합니다.
+
+### $ 참조
+
+키워드 $ 뒤에 오는 문자열의 시트(테이블)의 키를 참조합니다. (연결된 값이 해당 테이블에 없으면 오류)
+
+### ~ (보조 인덱스)
+
+모든 옵션을 정리하고 생성합니다.
+
+보조 인덱스를 배치하여 동일한 인덱스를 사용하는 테이블 내에서 중복 여부를 확인하는 기능입니다.
 
 ## Sample Excel (xlsx)
 
