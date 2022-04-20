@@ -132,6 +132,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.22
+* Table EndsWith mark location to StartsWith.
+
 ### v1.0.21
 * support custom table type. (use with '!')
 

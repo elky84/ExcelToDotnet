@@ -213,7 +213,7 @@ namespace ExcelToDotnet
             dt.Rows.RemoveAt(0);
             dt.Rows.RemoveAt(0);
 
-            if (!dt.TableName.EndsWith("!"))
+            if (!dt.TableName.StartsWith("!"))
                 dt.ValidateId("Id", false);
 
             var targetGroups = targetsArray.ToList().GroupBy(x => x).Select(x => x.Key).ToList();

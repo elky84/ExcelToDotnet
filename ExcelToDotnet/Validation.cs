@@ -596,7 +596,7 @@ namespace ExcelToDotnet
         public static void ValidateTableName(string name)
         {
             if (false == CodeDomProvider.CreateProvider("C#").IsValidIdentifier(name) &&
-                            !name.EndsWith("!"))
+                            !name.StartsWith("!"))
             {
                 Failed($"사용 불가능한 테이블명입니다. <Table:{name}>");
             }
@@ -616,7 +616,7 @@ namespace ExcelToDotnet
                 Failed($"컬럼명은 카멜 케이스만 지원합니다. <Table:{dt.TableName}, Column:{col}>");
             }
 
-            if (!dt.TableName.EndsWith("!") &&
+            if (!dt.TableName.StartsWith("!") &&
                 !dt.TableName.StartsWith("Const") &&
                 false == dt.Columns.Cast<DataColumn>().Where(x => x.ColumnName.Contains("Id")).Any())
             {
