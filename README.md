@@ -213,6 +213,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.25
+* fixed convert !Vector3, !Vector2 bug.
+
 ### v1.0.24
 * Fixed Validation Failed Exit Code. (0x0 -> 0x4)
 

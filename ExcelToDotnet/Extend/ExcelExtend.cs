@@ -218,7 +218,7 @@ namespace ExcelToDotnet.Extend
                                 throw;
                             }
                         }
-                        else if (dataType.StartsWith("Vector2"))
+                        else if (dataType.RemoveSpecialCharacters().StartsWith("Vector2"))
                         {
                             var vector2 = ((string)dr[col]).StringToVector2();
                             if (vector2 == null)
@@ -230,7 +230,7 @@ namespace ExcelToDotnet.Extend
 
                             row.Add(col.ColumnName, vector2);
                         }
-                        else if (dataType.StartsWith("Vector3"))
+                        else if (dataType.RemoveSpecialCharacters().StartsWith("Vector3"))
                         {
                             var vector3 = ((string)dr[col]).StringToVector3();
                             if (vector3 == null)
