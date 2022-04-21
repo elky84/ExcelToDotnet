@@ -85,41 +85,85 @@ cleanup & generate all option.
 
 This is a function to check for duplicates within a table using the same index by placing a secondary index.
 
-# 엑셀 키워드 설명 (한글)
+# 테이블명(시트명) 예약어
 
-## 테이블명(시트명) 예약어
-
-### # 설명
+## # 설명
 
 코멘트 또는 설명
 
-### ! (무시하다)
+![excel_to_dotnet](images/image0.png)
+
+시트 변환을 시도하지 않고 참조용 페이지에서 사용해주세요.
+
+## ! 무시하다
 
 Id 컬럼 존재 여부 확인 무시
 
-## 데이터 타입 예약어
+![excel_to_dotnet](images/image1.png)
 
-### # 설명
+![excel_to_dotnet](images/image2.png)
+
+위와 같이 테이블명 (시트명)에 사용시, Id 컬럼에 대한 체크를 무시합니다.
+
+## Const{테이블명}
+
+상수 값에 대한 기능으로, Id 컬럼에 대한 유효성 검사를 하지 않습니다.
+
+![excel_to_dotnet](images/image2.png)
+
+![excel_to_dotnet](images/image3.png)
+
+위와 같이 Id 컬럼이 없어도 사용 가능합니다. ! 키워드와 동일한 동작입니다.
+
+# 데이터 타입 예약어
+
+## # 설명
 
 코멘트 또는 설명
 
-### ! 무시하다
+![excel_to_dotnet](images/image4.png)
+
+행이나 열에 사용시, 해당 행이나 열은 모두 주석으로 인식됩니다.
+
+## ! 무시하다
 
 primitive type이 아닌, using을 통해 각종 내장 타입 혹은 외부 미리 선언된 타입을 사용하고자 할 경우 사용 (Custom DataType)
 
-### % 퍼센트
+![excel_to_dotnet](images/image5.png)
+
+!Vector3 가 예시이며, Vector3를 System.Numerics.Vector3를 사용하기 위해서 ! 키워드를 앞에 붙임으로써, 타입 검사를 무효화 하는 기능입니다.
+
+이 기능은 남발 할 경우, 서버나 클라이언트 컴파일 오류로 이어질 수 있으므로 주의 해야 합니다.
+
+## % 퍼센트
 
 행 값을 합산할 때 100이어야 합니다.
 
-### $ 참조
+![excel_to_dotnet](images/image6.png)
 
-키워드 $ 뒤에 오는 문자열의 시트(테이블)의 키를 참조합니다. (연결된 값이 해당 테이블에 없으면 오류)
+행의 총 합을 계산해서, 100인지 아닌지를 검사하는 기능입니다.
 
-### ~ (보조 인덱스)
+## $ 참조
+
+$ 뒤에 오는 문자열의 시트(테이블)의 키를 참조합니다. (연결된 값이 해당 테이블에 없으면 오류)
+
+![excel_to_dotnet](images/image7.png)
+
+특정 컬럼이, $이후에 쓰인 문자열에 해당하는 테이블에 존재하는지 확인하는 기능입니다.
+
+예시는 Id 컬럼에 대해서 참조 값으로 사용했는데요, Id컬럼이 아닌 일반 컬럼에서도 사용 가능합니다.
+
+## ~ 보조 인덱스
 
 모든 옵션을 정리하고 생성합니다.
 
 보조 인덱스를 배치하여 동일한 인덱스를 사용하는 테이블 내에서 중복 여부를 확인하는 기능입니다.
+
+![excel_to_dotnet](images/image8.png)
+
+위 예시는 SubIndex가 같은 값인 행에 대해서, SubKey에 대해 중복 검사를 해준다는 의미입니다.
+
+예를 들어, 특정 스테이지에 대한 보상을 지급 할 때, 동일한 스테이지에서는 동일한 보상을 선택하지 않게 하고 싶을 때 사용하시면 됩니다.
 
 ## Sample Excel (xlsx)
 
