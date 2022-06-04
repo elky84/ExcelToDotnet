@@ -213,6 +213,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.26
+* fixed tableName with ! (remove !)
+
 ### v1.0.25
 * fixed convert !Vector3, !Vector2 bug.
 

@@ -1,34 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	
-	<PackageId>ExcelToDotnet</PackageId>
-	<Version>1.0.25</Version>
-	<Authors>elky</Authors>
-	<Company>elky</Company>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
-	<PackageDescription>Excel To Dotnet</PackageDescription>
-    <RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
-		
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-  </PropertyGroup>
+		<PackageId>ExcelToDotnet</PackageId>
+		<Version>1.0.26</Version>
+		<Authors>elky</Authors>
+		<Company>elky</Company>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-  <ItemGroup>
-	<None Include="..\LICENSE" Pack="true" PackagePath="\"/>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+		<PackageDescription>Excel To Dotnet</PackageDescription>
+		<RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
 
-  <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
-    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.CodeDom" Version="6.0.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-  </ItemGroup>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE" Pack="true" PackagePath="\"/>
+		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.8.0" />
+		<PackageReference Include="ExcelDataReader" Version="3.6.0" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.CodeDom" Version="6.0.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
+	</ItemGroup>
 
 </Project>

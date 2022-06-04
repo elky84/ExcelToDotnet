@@ -64,6 +64,7 @@ namespace ExcelToDotnet
                         continue;
                     }
 
+                    tableName = tableName.Replace("!", string.Empty);
                     GenerateTable(fileName, opts, tableName, val.Value);
                 }
 
@@ -258,7 +259,7 @@ namespace ExcelToDotnet
                 }
             }
 
-            if(opts.Validation)
+            if (opts.Validation)
             {
                 foreach (var dataTable in dataTableEx)
                 {
@@ -307,7 +308,7 @@ namespace ExcelToDotnet
                                 { "##USING##", string.Join( Environment.NewLine, opts.Usings) }
                             };
 
-            using var outputFile = new StreamWriter($"{opts.Output }/{keyword}/{tableName}.cs");
+            using var outputFile = new StreamWriter($"{opts.Output}/{keyword}/{tableName}.cs");
             CodeTemplate.Class().GenerateCode(outputFile, dt, dataTypes, patterns, opts.Nullable);
             return true;
         }
