@@ -34,6 +34,10 @@ namespace ExcelToDotnet.Extend
                     return false;
 
                 var str = n[startX] as string;
+                if (str == null)
+                {
+                    throw new Exception($"not found string. <keyword:{keyword}> <x:{startX}> <y:{startY}> <list:{n}>");
+                }
                 return str!.ToString() == keyword;
             });
             return new KeyValuePair<int, int>(startX, y);

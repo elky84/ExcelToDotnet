@@ -213,6 +213,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.27
+* added exception log on enum table empty string.
+
 ### v1.0.26
 * fixed tableName with ! (remove !)
 

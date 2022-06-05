@@ -1,34 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
-	<Authors>elky</Authors>
-	<Company>elky</Company>
+		<Authors>elky</Authors>
+		<Company>elky</Company>
 
-	<PackAsTool>true</PackAsTool>
-	<ToolCommandName>excel2dotnet</ToolCommandName>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<Version>1.0.26</Version>
-	
-	<PackageDescription>Excel To Dotnet</PackageDescription>
-    <RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
-  </PropertyGroup>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>excel2dotnet</ToolCommandName>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Version>1.0.27</Version>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ExcelToDotnet\ExcelToDotnet.csproj" />
-  </ItemGroup>
+		<PackageDescription>Excel To Dotnet</PackageDescription>
+		<RepositoryUrl>https://github.com/elky84/ExcelToDotnet</RepositoryUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ExcelToDotnet\ExcelToDotnet.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-	<None Update="Character.xlsx">
-		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Character.xlsx">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
