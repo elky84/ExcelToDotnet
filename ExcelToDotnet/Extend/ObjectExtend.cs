@@ -40,7 +40,12 @@
 
         public static double ToDoubleValue(this object obj)
         {
-            return Convert.ToDouble(obj);
+            if (Double.TryParse(obj.ToString(), out var result))
+            {
+                return result;
+            }
+
+            return 0.0;
         }
     }
 }

@@ -54,14 +54,14 @@ namespace ExcelToDotnet
 
                     var dataTypeString = dataTypes[x].ToStringValue();
                     var obj = dt.Rows[n].ItemArray.ToArray()[x];
-                    if(obj == null)
+                    if (obj == null)
                     {
                         continue;
                     }
 
                     var str = obj.ToStringValue();
                     var itemArray = dt.Rows[n].ItemArray;
-                    if(itemArray == null)
+                    if (itemArray == null)
                     {
                         continue;
                     }
@@ -104,7 +104,7 @@ namespace ExcelToDotnet
                 var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == refDataType);
                 var refIndex = dt.Columns.IndexOf(refColumn);
 
-                var path = string.Format($"output/{keyword}/{dt.TableName}.json");
+                var path = string.Format($"output/{keyword}/{dt.TableName.RemoveSpecialCharacters()}.json");
                 if (!File.Exists(path))
                 {
                     Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. " +
@@ -136,7 +136,8 @@ namespace ExcelToDotnet
                     }
                 }
 
-                var groupByRow = dt.Rows.Cast<DataRow>().GroupBy(x => {
+                var groupByRow = dt.Rows.Cast<DataRow>().GroupBy(x =>
+                {
                     var left = x.ItemArray.ToArray()[index];
                     var right = x.ItemArray.ToArray()[refIndex];
                     if (left == null ||
@@ -169,7 +170,11 @@ namespace ExcelToDotnet
                 var refColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == columnName);
                 var refIndex = dt.Columns.IndexOf(refColumn);
 
-                var path = string.Format($"output/{keyword}/{dt.TableName}.json");
+                var probRefColumnName = probability.Value.RemoveSpecialCharacters();
+                var probRefColumn = dt.Columns.Cast<DataColumn>().FirstOrDefault(x => x.ColumnName == probRefColumnName);
+                var probRefIndex = dt.Columns.IndexOf(probRefColumn);
+
+                var path = string.Format($"output/{keyword}/{dt.TableName.RemoveSpecialCharacters()}.json");
                 if (!File.Exists(path))
                 {
                     Failed($"[{keyword}] JSON 파일이 존재하지 않습니다. 없는 테이블을 참조했습니다. " +
@@ -178,13 +183,13 @@ namespace ExcelToDotnet
                     continue;
                 }
 
-                var json = System.IO.File.ReadAllText(path);
+                var json = File.ReadAllText(path);
                 var list = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
 
                 for (int n = 0; n < dt.Rows.Count; ++n)
                 {
                     var item = dt.Rows[n].ItemArray.ToArray()[index];
-                    if(item == null)
+                    if (item == null)
                     {
                         continue;
                     }
@@ -199,19 +204,17 @@ namespace ExcelToDotnet
                     }
                 }
 
-                var sum = dt.Rows.Cast<DataRow>().Sum(x => {
-                    var value = x.ItemArray.ToArray()[refIndex];
-                    if (value == null)
+                var group = dt.Rows.Cast<DataRow>().GroupBy(x => x.ItemArray.ToArray()[probRefIndex]);
+
+                foreach (var sum in group.Select(g => g.Sum(x => x.ItemArray.ToArray()[refIndex]!.ToDoubleValue())))
+                {
+                    if (Math.Abs(sum - 100.0) > 0.00000001)
                     {
-                        return 0;
+                        Failed($"[{keyword}] 확률 참조 과정에서 합산 값이 100%가 아닌 행이 발견되었습니다. <Table:{dt.TableName}, 참조 컬럼:{refColumn}, " +
+                            $"참조데이터타입:{refDataType}, Column:{columnName}, ProbRefColumn:{probRefColumnName}," +
+                            $"Sum:{sum}>");
                     }
 
-                    return value.ToDoubleValue();
-                });
-
-                if (sum != 100)
-                {
-                    Failed($"[{keyword}] 확률 참조 과정에서 합산 값이 100%가 아닌 행이 발견되었습니다. <Table:{dt.TableName}, 참조 컬럼:{refColumn}, 참조데이터타입:{refDataType}, Column:{columnName}>");
                 }
             }
         }
@@ -259,7 +262,7 @@ namespace ExcelToDotnet
             for (int n = 0; n < dt.Rows.Count; ++n)
             {
                 var obj = dt.Rows[n].ItemArray.ToArray()[index];
-                if(obj == null)
+                if (obj == null)
                 {
                     Failed($"[{keyword}] 유효하지 않은  Table:{dt.TableName}, <참조Id:{refId}, Column:{dt.Columns[index].ColumnName}, Path:{path}>");
                     return false;
@@ -317,7 +320,7 @@ namespace ExcelToDotnet
             {
                 var index = e.Key;
                 var hashSet = dt.LoadEnum(keyword, e.Key, e.Value, true);
-                if(hashSet == null)
+                if (hashSet == null)
                 {
                     Failed($"[{keyword}] HashSet 변환에 실패했습니다. <Table:{dt.TableName}, enum:{e}>");
                     continue;
@@ -390,7 +393,7 @@ namespace ExcelToDotnet
 
             var json = File.ReadAllText(path);
             var list = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-            if(list == null)
+            if (list == null)
             {
                 Failed($"[{keyword}] JSON을 변환하는 데에 실패했습니다. <Table:{dt.TableName}, enum:{e}, Column:{dt.Columns[index].ColumnName}, Path:{path}>");
                 return null;
@@ -408,7 +411,7 @@ namespace ExcelToDotnet
             for (int n = 0; n < dt.Rows.Count; ++n)
             {
                 var obj = dt.Rows[n].ItemArray.ToArray()[index];
-                if(obj == null)
+                if (obj == null)
                 {
                     Failed($"[{keyword}] 문자열로 변환에 실패했습니다. 참조에 실패했습니다. <Table:{dt.TableName}, enum:{e}>");
                     return false;
@@ -426,7 +429,7 @@ namespace ExcelToDotnet
                     if (obj.GetType() != typeof(DBNull))
                     {
                         var strings = JsonConvert.DeserializeObject<List<string>>(str);
-                        if(strings == null)
+                        if (strings == null)
                         {
                             Failed($"[{keyword}] 문자열로 변환에 실패했습니다. 참조에 실패했습니다. <Table:{dt.TableName}, enum:{e}>");
                             return false;
@@ -460,13 +463,13 @@ namespace ExcelToDotnet
                 return string.Empty;
             }
 
-            if(objs == null)
+            if (objs == null)
             {
                 return string.Empty;
             }
 
             var obj = objs[index];
-            if ( obj == null)
+            if (obj == null)
             {
                 return string.Empty;
             }
@@ -548,7 +551,7 @@ namespace ExcelToDotnet
 
         public static bool IsListType(string qualifiedTypeName)
         {
-            return qualifiedTypeName.StartsWith("List") && ( qualifiedTypeName.EndsWith(">") || qualifiedTypeName.EndsWith(">?"));
+            return qualifiedTypeName.StartsWith("List") && (qualifiedTypeName.EndsWith(">") || qualifiedTypeName.EndsWith(">?"));
         }
 
         public static bool IsKeyword(string dataType)
@@ -638,7 +641,7 @@ namespace ExcelToDotnet
                 return;
             }
 
-            var converted = dt.Rows.Cast<DataRow>().Select(r => r[columnIndex]).Where(x => x.GetType() == typeof(string)).Cast<string>();
+            var converted = dt.Rows.Cast<DataRow>().Select(r => r[columnIndex]).Select(x => x.ToString());
             foreach (var row in converted.GroupBy(x => x)
                 .Where(g => g.Count() > 1)
                 .Select(y => y.Key).ToList())

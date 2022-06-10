@@ -213,6 +213,13 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.29
+* fixed only string column validate id. (changes check all column type)
+
+### v1.0.28
+* fixed tableName with ! (remove !) on validation mode.
+* changed check probability sum by column.
+
 ### v1.0.27
 * added exception log on enum table empty string.
 
