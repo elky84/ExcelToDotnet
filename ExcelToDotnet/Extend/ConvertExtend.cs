@@ -100,9 +100,9 @@
             for (int x = 0; x < dataTypes.Count; ++x)
             {
                 var value = dataTypes[x].ToStringValue();
-                if ((value.StartsWith("List") && (value.EndsWith("Type>?") || value.EndsWith("Type>"))) || 
-                    value.EndsWith("Type") || 
-                    value.EndsWith("Type?"))
+                if ((value.StartsWith("List") && value.EndsWith("Type?>")) ||
+                                    value.EndsWith("Type") ||
+                                    value.EndsWith("Type?"))
                 {
                     list.Add(new KeyValuePair<int, string>(x, value));
                 }

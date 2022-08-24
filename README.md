@@ -213,6 +213,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.30
+* The added rule is that the list enum type must be Nullable.
+
 ### v1.0.29
 * fixed only string column validate id. (changes check all column type)
 

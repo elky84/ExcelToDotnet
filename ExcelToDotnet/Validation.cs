@@ -565,8 +565,17 @@ namespace ExcelToDotnet
             for (int index = 0; index < dataTypeStrings.Count; ++index)
             {
                 var dataType = dataTypeStrings[index];
-                if (IsPrimitiveType(dataType) || IsListType(dataType) || IsKeyword(dataType))
+                if (IsPrimitiveType(dataType) || IsKeyword(dataType))
                 {
+                    continue;
+                }
+
+                if (IsListType(dataType))
+                {
+                    if (dataType.Contains("Type") && !dataType.Contains("?>"))
+                    {
+                        Failed($"[{keyword}] List타입이고, Enum을 담고 있다면 Nullable이어야만 합니다 <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
+                    }
                     continue;
                 }
 
@@ -651,7 +660,7 @@ namespace ExcelToDotnet
 
             if (checkSpace)
             {
-                foreach (var row in converted.Where(x => x.Contains(" ")).ToList())
+                foreach (var row in converted.Where(x => x!.Contains(" ")).ToList())
                 {
                     Failed($"Id에 공백이 포함되었습니다. <Table:{dt.TableName}, Row:{row}>");
                 }
