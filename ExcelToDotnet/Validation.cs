@@ -229,7 +229,7 @@ namespace ExcelToDotnet
 
                 if (pair.Value.StartsWith("List"))
                 {
-                    dt.ValidateReference(keyword, index, pair.Value.Split('<', '>')[1], true);
+                    dt.ValidateReference(keyword, index, pair.Value.ExtractDataTypeInList(), true);
                 }
                 else
                 {
