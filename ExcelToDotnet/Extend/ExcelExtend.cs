@@ -192,7 +192,8 @@ namespace ExcelToDotnet.Extend
                     else
                     {
                         var dataType = dataTypes != null ? dataTypes[dt.Columns.IndexOf(col)] : string.Empty;
-                        if (dataType.StartsWith("List"))
+                        var dataTypeWithoutSpecialCharacters = dataType.RemoveSpecialCharacters();
+                        if (dataTypeWithoutSpecialCharacters.StartsWith("List"))
                         {
                             try
                             {
@@ -222,7 +223,7 @@ namespace ExcelToDotnet.Extend
                                 throw;
                             }
                         }
-                        else if (dataType.RemoveSpecialCharacters().StartsWith("Vector2"))
+                        else if (dataTypeWithoutSpecialCharacters.StartsWith("Vector2"))
                         {
                             var vector2 = ((string)dr[col]).StringToVector2();
                             if (vector2 == null)
@@ -234,7 +235,7 @@ namespace ExcelToDotnet.Extend
 
                             row.Add(col.ColumnName, vector2);
                         }
-                        else if (dataType.RemoveSpecialCharacters().StartsWith("Vector3"))
+                        else if (dataTypeWithoutSpecialCharacters.StartsWith("Vector3"))
                         {
                             var vector3 = ((string)dr[col]).StringToVector3();
                             if (vector3 == null)
@@ -245,6 +246,10 @@ namespace ExcelToDotnet.Extend
                             }
 
                             row.Add(col.ColumnName, vector3);
+                        }
+                        else if (dataTypeWithoutSpecialCharacters.StartsWith("string"))
+                        {
+                            row.Add(col.ColumnName, ((string)dr[col]).Trim());
                         }
                         else
                         {
