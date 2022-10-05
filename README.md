@@ -16,6 +16,11 @@
 
 # ExcelToDotnet
 
+## Getting started
+
+* [install](#install-cli-global-tool)
+* [usage](#global-tool-usage)
+
 ## Nuget.org
 
 <https://www.nuget.org/packages/ExcelToDotnet/>
@@ -181,7 +186,7 @@ Reference : <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelCli/Program.
 
 ## install cli global tool
 
-require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
+require dotnet 6 (LTS) or later rumtime (also include rumtime in SDK) (<https://dotnet.microsoft.com/en-us/download>)
 
 `dotnet tool install -g ExcelCli`
 
