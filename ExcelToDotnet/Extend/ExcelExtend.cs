@@ -247,10 +247,6 @@ namespace ExcelToDotnet.Extend
 
                             row.Add(col.ColumnName, vector3);
                         }
-                        else if (dataTypeWithoutSpecialCharacters.StartsWith("string"))
-                        {
-                            row.Add(col.ColumnName, ((string)dr[col]).Trim());
-                        }
                         else
                         {
                             row.Add(col.ColumnName, dr[col]);
