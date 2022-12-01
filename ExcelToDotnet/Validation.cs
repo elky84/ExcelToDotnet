@@ -572,9 +572,9 @@ namespace ExcelToDotnet
 
                 if (IsListType(dataType))
                 {
-                    if (dataType.Contains("Type") && !dataType.Contains("?>"))
+                    if (dataType.Contains("Type") && dataType.Contains("?>"))
                     {
-                        Failed($"[{keyword}] List타입이고, Enum을 담고 있다면 Nullable이어야만 합니다 <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
+                        Failed($"[{keyword}] List타입이고, Enum을 담고 있다면 Nullable이 아니어야만 합니다 <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
                     }
                     continue;
                 }

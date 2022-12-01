@@ -218,6 +218,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.33
+* Change List Enum rules for Nullable. (Do not use Nullable Enum)
+
 ### v1.0.32
 * removed string value Trim().
 
