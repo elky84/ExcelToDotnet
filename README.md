@@ -218,6 +218,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.35
+* Fix Probability validation error.
+
 ### v1.0.34
 * Check excel files only generate mode.
 

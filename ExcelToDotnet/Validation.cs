@@ -204,11 +204,11 @@ namespace ExcelToDotnet
                     }
                 }
 
-                var group = dt.Rows.Cast<DataRow>().GroupBy(x => x.ItemArray.ToArray()[probRefIndex]);
+                var group = dt.Rows.Cast<DataRow>().GroupBy(x => x.ItemArray.ToArray().Get(probRefIndex));
 
-                foreach (var sum in group.Select(g => g.Sum(x => x.ItemArray.ToArray()[refIndex]!.ToDoubleValue())))
+                foreach (var sum in group.Select(g => g.Sum(x => x.ItemArray.ToArray().Get(refIndex)?.ToDoubleValue())))
                 {
-                    if (Math.Abs(sum - 100.0) > 0.00000001)
+                    if (Math.Abs(sum ?? 0.0 - 100.0) > 0.00000001)
                     {
                         Failed($"[{keyword}] 확률 참조 과정에서 합산 값이 100%가 아닌 행이 발견되었습니다. <Table:{dt.TableName}, 참조 컬럼:{refColumn}, " +
                             $"참조데이터타입:{refDataType}, Column:{columnName}, ProbRefColumn:{probRefColumnName}," +
