@@ -26,7 +26,7 @@ namespace ExcelToDotnet
                 Directory.GetFiles(opts.InputDirectory).Where(x => x.ToLower().EndsWith(".xlsx") && !Path.GetFileName(x).StartsWith("~$")).ToList() :
                 opts.InputFiles.ToList();
 
-            if (files.Count <= 0)
+            if (!opts.Validation && files.Count <= 0)
             {
                 LogExtend.Color(ConsoleColor.Yellow, ConsoleColor.Magenta, $"Not found input files. <InputDirectory: {opts.InputDirectory}, Files: {string.Join(",", opts.InputFiles)}>");
                 Environment.Exit(ErrorCode.NO_INPUT_FILES);

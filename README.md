@@ -218,8 +218,11 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.34
+* Check excel files only generate mode.
+
 ### v1.0.33
-* Change List Enum rules for Nullable. (Do not use Nullable Enum)
+* Modify DataTableEx's members to be non-nullable
 
 ### v1.0.32
 * removed string value Trim().
