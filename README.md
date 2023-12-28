@@ -218,6 +218,9 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.36
+* If it is a List type and contains an Enum, delete the condition that must not be Nullable.
+
 ### v1.0.35
 * Fix Probability validation error.
 

@@ -31,7 +31,7 @@ namespace ExcelToDotnet.Extend
                 {
                     strings.Insert(insertIndex, string.Format($"        [JsonConverter(typeof(JsonEnumConverter<{dataType.RemoveSpecialCharacters()}>))]"));
                 }
-                else if (dataType.StartsWith("List") && (dataType.EndsWith("Type>?") || dataType.EndsWith("Type>")))
+                else if (dataType.StartsWith("List") && (dataType.EndsWith("Type>?") || dataType.EndsWith("Type>") || dataType.EndsWith("Type?>")))
                 {
                     strings.Insert(insertIndex, string.Format($"        [JsonConverter(typeof(JsonEnumsConverter<{dataType.ExtractDataTypeInList().RemoveSpecialCharacters()}>))]"));
                 }

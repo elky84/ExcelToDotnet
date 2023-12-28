@@ -570,21 +570,12 @@ namespace ExcelToDotnet
                     continue;
                 }
 
-                if (IsListType(dataType))
-                {
-                    if (dataType.Contains("Type") && dataType.Contains("?>"))
-                    {
-                        Failed($"[{keyword}] List타입이고, Enum을 담고 있다면 Nullable이 아니어야만 합니다 <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
-                    }
-                    continue;
-                }
-
                 if (File.Exists($"output/{keyword}/{dataType}.Json"))
                 {
                     continue;
                 }
 
-                if (!dataType.EndsWith("Type") && !dataType.EndsWith("Type?"))
+                if (!IsListType(dataType) && !dataType.EndsWith("Type") && !dataType.EndsWith("Type?"))
                 {
                     Failed($"[{keyword}] 참조 컬럼이 아니고, 기본형 타입, List 타입이 아니라면, Type 또는 Type? 으로 끝나야 합니다. <Table:{dt.TableName}, Column:{dt.Columns[index].ColumnName}, dataType:{dataType}>");
                 }
