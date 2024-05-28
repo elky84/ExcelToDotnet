@@ -19,8 +19,8 @@
 
 ## Getting started
 
-* [install](#install-cli-global-tool)
-* [usage](#global-tool-usage)
+- [install](#install-cli-global-tool)
+- [usage](#global-tool-usage)
 
 ## Nuget.org
 
@@ -219,62 +219,85 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.38
+
+- code fix for nullable rules.
+- refactoring Generator.cs
+
 ### v1.0.37
-* upgrade Dotnet runtime version to 8.0
+
+- upgrade Dotnet runtime version to 8.0
 
 ### v1.0.36
-* If it is a List type and contains an Enum, delete the condition that must not be Nullable.
+
+- If it is a List type and contains an Enum, delete the condition that must not be Nullable.
 
 ### v1.0.35
-* Fix Probability validation error.
+
+- Fix Probability validation error.
 
 ### v1.0.34
-* Check excel files only generate mode.
+- Check excel files only generate mode.
 
 ### v1.0.33
-* Modify DataTableEx's members to be non-nullable
+
+- Modify DataTableEx's members to be non-nullable
 
 ### v1.0.32
-* removed string value Trim().
+
+- removed string value Trim().
 
 ### v1.0.31
-* added string value Trim().
+
+- added string value Trim().
 
 ### v1.0.30
-* The added rule is that the list enum type must be Nullable.
+
+- The added rule is that the list enum type must be Nullable.
 
 ### v1.0.29
-* fixed only string column validate id. (changes check all column type)
+
+- fixed only string column validate id. (changes check all column type)
 
 ### v1.0.28
-* fixed tableName with ! (remove !) on validation mode.
-* changed check probability sum by column.
+
+- fixed tableName with ! (remove !) on validation mode.
+- changed check probability sum by column.
 
 ### v1.0.27
-* added exception log on enum table empty string.
+
+- added exception log on enum table empty string.
 
 ### v1.0.26
-* fixed tableName with ! (remove !)
+
+- fixed tableName with ! (remove !)
 
 ### v1.0.25
-* fixed convert !Vector3, !Vector2 bug.
+
+- fixed convert !Vector3, !Vector2 bug.
 
 ### v1.0.24
-* Fixed Validation Failed Exit Code. (0x0 -> 0x4)
+
+- Fixed Validation Failed Exit Code. (0x0 -> 0x4)
 
 ### v1.0.23
-* Support System.Numerics Vector2 and Vector3
+
+- Support System.Numerics Vector2 and Vector3
 
 ### v1.0.22
-* Table EndsWith mark location to StartsWith.
+
+- Table EndsWith mark location to StartsWith.
 
 ### v1.0.21
-* support custom table type. (use with '!')
+
+- support custom table type. (use with '!')
 
 ### v1.0.20
-* generate class to partial class
+
+- generate class to partial class
 
 ### v1.0.19
-* removed ignore mode
-* added wide mode (cleanup & generate all option)
-* fixed sub index, probability functions.
+
+- removed ignore mode
+- added wide mode (cleanup & generate all option)
+- fixed sub index, probability functions.

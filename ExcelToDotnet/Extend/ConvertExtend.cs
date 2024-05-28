@@ -8,7 +8,7 @@
         }
 
 
-        public static List<KeyValuePair<string, string>> Convert(this List<string?> dataTypes, bool nullable)
+        public static List<KeyValuePair<string, string>> Convert(this List<string> dataTypes, bool nullable)
         {
             return dataTypes.ConvertAll(x =>
             {
@@ -51,7 +51,7 @@
             });
         }
 
-        public static List<KeyValuePair<int, string>> ConvertToReferenceId(this List<string?> dataTypes)
+        public static List<KeyValuePair<int, string>> ConvertToReferenceId(this List<string> dataTypes)
         {
             var list = new List<KeyValuePair<int, string>>();
             for (int x = 0; x < dataTypes.Count; ++x)
@@ -65,7 +65,7 @@
             return list;
         }
 
-        public static List<KeyValuePair<int, string>> ConvertToSubIndex(this List<string?> dataTypes)
+        public static List<KeyValuePair<int, string>> ConvertToSubIndex(this List<string> dataTypes)
         {
             var list = new List<KeyValuePair<int, string>>();
             for (int x = 0; x < dataTypes.Count; ++x)
@@ -79,7 +79,7 @@
             return list;
         }
 
-        public static List<KeyValuePair<int, string>> ConvertToProbability(this List<string?> dataTypes)
+        public static List<KeyValuePair<int, string>> ConvertToProbability(this List<string> dataTypes)
         {
             var list = new List<KeyValuePair<int, string>>();
             for (int x = 0; x < dataTypes.Count; ++x)
@@ -94,7 +94,7 @@
         }
 
 
-        public static List<KeyValuePair<int, string>> ConvertToReferenceEnum(this List<string?> dataTypes)
+        public static List<KeyValuePair<int, string>> ConvertToReferenceEnum(this List<string> dataTypes)
         {
             var list = new List<KeyValuePair<int, string>>();
             for (int x = 0; x < dataTypes.Count; ++x)

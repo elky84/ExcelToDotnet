@@ -43,7 +43,7 @@ namespace ExcelToDotnet
             return hashSet;
         }
 
-        public static void ValidateValue(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidateValue(this DataTable dt, string keyword, List<string> dataTypes)
         {
             for (int n = 0; n < dt.Rows.Count; ++n)
             {
@@ -92,7 +92,7 @@ namespace ExcelToDotnet
             }
         }
 
-        public static void ValidateSubIndex(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidateSubIndex(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var subIndexes = dataTypes.ConvertToSubIndex();
             foreach (var subIndex in subIndexes)
@@ -158,7 +158,7 @@ namespace ExcelToDotnet
             }
         }
 
-        public static void ValidationProbability(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidationProbability(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var probabilities = dataTypes.ConvertToProbability();
             foreach (var probability in probabilities)
@@ -220,7 +220,7 @@ namespace ExcelToDotnet
         }
 
 
-        public static void ValidateReference(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidateReference(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var refIds = dataTypes.ConvertToReferenceId();
             foreach (var pair in refIds)
@@ -313,7 +313,7 @@ namespace ExcelToDotnet
             return true;
         }
 
-        public static void ValidationConst(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidationConst(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var enums = dataTypes.ConvertToReferenceEnum();
             foreach (var e in enums)
@@ -365,7 +365,7 @@ namespace ExcelToDotnet
         }
 
 
-        public static void ValidateReferenceEnum(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidateReferenceEnum(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var enums = dataTypes.ConvertToReferenceEnum();
             foreach (var e in enums)
@@ -559,7 +559,7 @@ namespace ExcelToDotnet
             return dataType.StartsWith("$") || dataType.StartsWith("!") || dataType.StartsWith("~") || dataType.StartsWith("%");
         }
 
-        public static void ValidateDataType(this DataTable dt, string keyword, List<string?> dataTypes)
+        public static void ValidateDataType(this DataTable dt, string keyword, List<string> dataTypes)
         {
             var dataTypeStrings = dataTypes.ConvertAll(x => x != null ? (string)x : String.Empty);
             for (int index = 0; index < dataTypeStrings.Count; ++index)

@@ -4,7 +4,7 @@ namespace ExcelToDotnet.Extend
 {
     public static class CodeGenerateExtend
     {
-        public static void GenerateCode(this List<string> strings, StreamWriter outputFile, DataTable dt, List<string?> dataTypes, Dictionary<string, string> patterns, bool nullable)
+        public static void GenerateCode(this List<string> strings, StreamWriter outputFile, DataTable dt, List<string> dataTypes, Dictionary<string, string> patterns, bool nullable)
         {
             var dataTypesConverted = dataTypes.Convert(nullable);
             foreach (var pattern in patterns)

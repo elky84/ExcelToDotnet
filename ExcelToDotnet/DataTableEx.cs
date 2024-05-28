@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace ExcelToDotnet
 {
@@ -11,8 +6,13 @@ namespace ExcelToDotnet
     {
         public string Target { get; set; } = "";
 
-        public DataTable? DataTable { get; set; }
+        public DataTable? DataTable { private get; set; }
 
-        public List<string>? DataTypes { get; set; }
+        public DataTable Table => DataTable!;
+
+        public List<string>? DataTypes { private get; set; }
+
+        public List<string> Types => DataTypes!;
+
     }
 }
