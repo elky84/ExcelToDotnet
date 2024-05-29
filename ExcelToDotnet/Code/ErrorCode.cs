@@ -1,4 +1,4 @@
-﻿namespace ExcelToDotnet
+﻿namespace ExcelToDotnet.Code
 {
     public class ErrorCode
     {

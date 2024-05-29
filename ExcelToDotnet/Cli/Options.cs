@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ExcelToDotnet
+namespace ExcelToDotnet.Cli
 {
     public partial class Options
     {

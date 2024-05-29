@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace ExcelToDotnet
+namespace ExcelToDotnet.Entity
 {
     public class DataTableEx
     {

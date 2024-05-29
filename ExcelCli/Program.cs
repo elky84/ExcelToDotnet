@@ -1,5 +1,7 @@
 ﻿using CommandLine;
-using ExcelToDotnet;
+using ExcelToDotnet.Actor;
+using ExcelToDotnet.Cli;
+using ExcelToDotnet.Code;
 using ExcelToDotnet.Extend;
 using System;
 

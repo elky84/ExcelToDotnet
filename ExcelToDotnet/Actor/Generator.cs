@@ -1,9 +1,12 @@
-﻿using ExcelToDotnet.Extend;
+﻿using ExcelToDotnet.Cli;
+using ExcelToDotnet.Code;
+using ExcelToDotnet.Entity;
+using ExcelToDotnet.Extend;
 using Newtonsoft.Json;
 using System.Data;
 using System.Text;
 
-namespace ExcelToDotnet
+namespace ExcelToDotnet.Actor
 {
     public static class Generator
     {
@@ -128,7 +131,7 @@ namespace ExcelToDotnet
         {
             if (dataTable.Rows.Count < 2)
             {
-                Validation.Failed($"스키마 정보가 유효하지 않습니다. 상위 3개의 행은 필수로 존재해야 합니다. !! 1행: 컬럼 이름, 2행: 데이터 타입, 3행: 타겟 (다중 타겟시 |로 구분자) !! <file:{fileName}, table:{tableName} row count: {dataTable.Rows.Count}>");
+                Validator.Failed($"스키마 정보가 유효하지 않습니다. 상위 3개의 행은 필수로 존재해야 합니다. !! 1행: 컬럼 이름, 2행: 데이터 타입, 3행: 타겟 (다중 타겟시 |로 구분자) !! <file:{fileName}, table:{tableName} row count: {dataTable.Rows.Count}>");
                 return;
             }
 
@@ -148,7 +151,7 @@ namespace ExcelToDotnet
 
         private static void ValidateDataTable(DataTable dataTable)
         {
-            Validation.ValidateTableName(dataTable.TableName);
+            Validator.ValidateTableName(dataTable.TableName);
             dataTable.ValidateDuplicate();
             dataTable.ValidateColumnName();
         }
@@ -271,7 +274,7 @@ namespace ExcelToDotnet
             var tableName = list2D[start.Value][start.Key + 1];
             if (tableName == null)
             {
-                Validation.Failed($"테이블 명을 가져오는 데에 실패했습니다. <X:{start.Value},Y:{start.Key + 1}>");
+                Validator.Failed($"테이블 명을 가져오는 데에 실패했습니다. <X:{start.Value},Y:{start.Key + 1}>");
                 return false;
             }
 
@@ -296,7 +299,7 @@ namespace ExcelToDotnet
 
         public static bool GenerateEnum(string tableName, Options opts, DataTable dt)
         {
-            Validation.ValidateTableName(tableName);
+            Validator.ValidateTableName(tableName);
 
             dt.TableName = tableName;
 
@@ -306,15 +309,13 @@ namespace ExcelToDotnet
             string jsonFileName = Path.Combine(opts.Output, "enumJson", $"{tableName}.json");
             if (File.Exists(jsonFileName))
             {
-                Validation.Failed($"이미 존재하는 Enum을 사용하셨습니다. <FileName:{jsonFileName}> <Table:{tableName}>");
+                Validator.Failed($"이미 존재하는 Enum을 사용하셨습니다. <FileName:{jsonFileName}> <Table:{tableName}>");
                 return false;
             }
 
             WriteJsonFile(jsonFileName, dt.MapDatasetData());
 
-            var patterns = GetPatterns(opts, tableName);
-
-            WriteEnumFile(opts, tableName, dt, patterns);
+            WriteEnumFile(opts, tableName, dt);
 
             return true;
         }
@@ -326,25 +327,13 @@ namespace ExcelToDotnet
             outputFileJson.Write(json);
         }
 
-        private static Dictionary<string, string> GetPatterns(Options opts, string tableName)
+        private static void WriteEnumFile(Options opts, string tableName, DataTable dt)
         {
-            return new Dictionary<string, string>()
-            {
-                { "##NAMESPACE##", opts.NameSpace },
-                { "##CLASS##", tableName },
-                { "##USING##", string.Join(Environment.NewLine, opts.Usings) },
-                { "##ATTRIBUTE##", opts.Attribute }
-            };
-        }
+            using FileStream vStream = File.Create($"{opts.Output}/enum/{tableName}.cs");
+            using StreamWriter outputFile = new(vStream, new UTF8Encoding(true));
 
-        private static void WriteEnumFile(Options opts, string tableName, DataTable dt, Dictionary<string, string> patterns)
-        {
-            using (FileStream vStream = File.Create($"{opts.Output}/enum/{tableName}.cs"))
-            {
-                using StreamWriter outputFile = new StreamWriter(vStream, new UTF8Encoding(true));
-
-                CodeTemplate.Enum().GenerateEnumCode(outputFile, dt, patterns);
-            }
+            var strings = Enum(opts.NameSpace, tableName, string.Join(Environment.NewLine, opts.Usings), opts.Attribute, EnumBody(dt));
+            outputFile.Write(string.Join(Environment.NewLine, strings));
         }
 
         public static void GenerateCsAndJson(string fileName, string keyword, string tableName, Options opts, DataTable dt, List<string> dataTypes)
@@ -354,32 +343,97 @@ namespace ExcelToDotnet
             string jsonFileName = Path.Combine(opts.Output, keyword, $"{tableName}.json");
             if (File.Exists(jsonFileName))
             {
-                Validation.Failed($"이미 존재하는 테이블 명을 사용하셨습니다. <ExcelFileName{fileName} jsonFileName:{jsonFileName}, Table:{tableName}>");
+                Validator.Failed($"이미 존재하는 테이블 명을 사용하셨습니다. <ExcelFileName{fileName} jsonFileName:{jsonFileName}, Table:{tableName}>");
                 return;
             }
 
             WriteJsonFile(jsonFileName, dt.MapDatasetData(dataTypes.ConvertAll(x => x.ToString() ?? "")));
 
-            var patterns = GetPatterns(opts, tableName, keyword);
-
-            WriteCsFile(opts, keyword, tableName, dt, dataTypes, patterns);
+            WriteCsFile(opts, keyword, tableName, dt, dataTypes);
         }
 
-        private static Dictionary<string, string> GetPatterns(Options opts, string tableName, string keyword)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "##NAMESPACE##", $"{opts.NameSpace}.{keyword}" },
-                { "##CLASS##", tableName },
-                { "##USING##", string.Join(Environment.NewLine, opts.Usings) }
-            };
-        }
-
-        private static void WriteCsFile(Options opts, string keyword, string tableName, DataTable dt, List<string> dataTypes, Dictionary<string, string> patterns)
+        private static void WriteCsFile(Options opts, string keyword, string tableName, DataTable dt, List<string> dataTypes)
         {
             string filePath = Path.Combine(opts.Output, keyword, $"{tableName}.cs");
             using var outputFile = new StreamWriter(filePath);
-            CodeTemplate.Class().GenerateCode(outputFile, dt, dataTypes, patterns, opts.Nullable);
+            var strings = Class($"{opts.NameSpace}.{keyword}", tableName, string.Join(Environment.NewLine, opts.Usings), ClassBody(dt, dataTypes, opts.Nullable));
+            outputFile.Write(string.Join(Environment.NewLine, strings));
+        }
+
+        private static List<string> EnumBody(DataTable dt)
+        {
+            var strings = new List<string>();
+            for (int n = 0; n < dt.Rows.Count; ++n)
+            {
+                strings.Add(string.Empty);
+                strings.Add(string.Format("[Description(\"{0}\")]", dt.Rows[n].ItemArray[1]));
+                strings.Add(string.Format("{0},", dt.Rows[n].ItemArray[0]));
+            }
+            return strings;
+        }
+
+        private static List<string> ClassBody(DataTable dt, List<string> dataTypes, bool nullable)
+        {
+            var dataTypesConverted = dataTypes.Convert(nullable);
+            var strings = new List<string>();
+            for (int n = 0; n < dt.Columns.Count; ++n)
+            {
+                //var plainDataType = dataTypesConverted[n].Key;
+                var dataType = dataTypesConverted[n].Value;
+
+                strings.Add(string.Empty);
+
+                if (dataType.EndsWith("Type") || dataType.EndsWith("Type?"))
+                {
+                    strings.Add(string.Format($"[JsonConverter(typeof(JsonEnumConverter<{dataType.RemoveSpecialCharacters()}>))]"));
+                }
+                else if (dataType.StartsWith("List") && (dataType.EndsWith("Type>?") || dataType.EndsWith("Type>") || dataType.EndsWith("Type?>")))
+                {
+                    strings.Add(string.Format($"[JsonConverter(typeof(JsonEnumsConverter<{dataType.ExtractDataTypeInList().RemoveSpecialCharacters()}>))]"));
+                }
+                strings.Add(string.Format("public {0} {1}", dataType, dt.Columns[n].ColumnName) + " { get; set; }");
+            }
+            return strings;
+        }
+
+        private static readonly List<string> DefaultUsings = [
+            "using System;",
+            "using System.Collections.Generic;",
+            "using System.Drawing;",
+            "using Newtonsoft.Json;"
+        ];
+
+        public static List<string> Enum(string namespaceName, string className, string usings, string attribute, List<string> enumValues)
+        {
+            var template = new List<string> {
+                $"{string.Join(Environment.NewLine, DefaultUsings)}",
+                $"{usings}",
+                "",
+                $"namespace {namespaceName}",
+                "{",
+                $"\t{string.Join(Environment.NewLine + "\t", attribute)}",
+                $"\tpublic enum {className}",
+                "\t{",
+                $"\t{string.Join(Environment.NewLine + "\t\t", enumValues.Select(value => value))}",
+                "\t}",
+                "}" };
+            return template;
+        }
+
+        public static List<string> Class(string namespaceName, string className, string usings, List<string> classBody)
+        {
+            var template = new List<string> {
+                $"{string.Join(Environment.NewLine, DefaultUsings)}",
+                $"{usings}",
+                "",
+                $"namespace {namespaceName}",
+                "{",
+                $"\tpublic partial class {className}",
+                "\t{",
+                $"\t{string.Join(Environment.NewLine + "\t\t", classBody)}",
+                "\t}",
+                "}" };
+            return template;
         }
     }
 }

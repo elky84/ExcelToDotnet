@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 
 		<PackageId>ExcelToDotnet</PackageId>
-		<Version>1.0.38</Version>
+		<Version>1.0.39</Version>
 		<Authors>elky</Authors>
 		<Company>elky</Company>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -18,8 +18,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\LICENSE" Pack="true" PackagePath="\"/>
-		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\LICENSE" Pack="true" PackagePath="\" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>

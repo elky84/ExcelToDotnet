@@ -219,6 +219,11 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.39
+
+- changes package structures.
+- remove CodeGenerateExtend, CodeTemplate.
+
 ### v1.0.38
 
 - code fix for nullable rules.

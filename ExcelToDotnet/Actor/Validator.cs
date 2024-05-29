@@ -1,13 +1,14 @@
-﻿using ExcelToDotnet.Extend;
+﻿using ExcelToDotnet.Code;
+using ExcelToDotnet.Extend;
 using Newtonsoft.Json;
 using System.CodeDom.Compiler;
 using System.Data;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
-namespace ExcelToDotnet
+namespace ExcelToDotnet.Actor
 {
-    public static class Validation
+    public static class Validator
     {
         public static void Failed(string format, params object[] args)
         {
@@ -561,7 +562,7 @@ namespace ExcelToDotnet
 
         public static void ValidateDataType(this DataTable dt, string keyword, List<string> dataTypes)
         {
-            var dataTypeStrings = dataTypes.ConvertAll(x => x != null ? (string)x : String.Empty);
+            var dataTypeStrings = dataTypes.ConvertAll(x => x != null ? x : string.Empty);
             for (int index = 0; index < dataTypeStrings.Count; ++index)
             {
                 var dataType = dataTypeStrings[index];
@@ -614,7 +615,7 @@ namespace ExcelToDotnet
             }
 
             foreach (var col in dt.Columns.Cast<DataColumn>()
-                .Where(x => !Char.IsUpper(x.ColumnName[0]) || (x.ColumnName.Length > 1 && x.ColumnName.Length == x.ColumnName.Where(n => Char.IsUpper(n)).ToList().Count)))
+                .Where(x => !char.IsUpper(x.ColumnName[0]) || x.ColumnName.Length > 1 && x.ColumnName.Length == x.ColumnName.Where(n => char.IsUpper(n)).ToList().Count))
             {
                 Failed($"컬럼명은 카멜 케이스만 지원합니다. <Table:{dt.TableName}, Column:{col}>");
             }
