@@ -47,17 +47,18 @@ The second row is the data type, and it is possible to link to the Id column of 
 
 ### Korean
 
-Unity, C# 애플리케이션 등에서 사용할 수 있는 변환기라고 할 수 있습니다.
+Unity, C# 애플리케이션 등에서 사용할 수 있는 변환기입니다.
 
-규칙이 설정된 Excel 시트가 필요합니다.
+규칙에 맞게 입력된 Excel 시트가 필요합니다.
 
 Enum의 경우 Enum 시트만 등록해야 합니다. 그렇지 않으면 시트 이름이 클래스 이름이 됩니다.
 
 모든 경우에 #은 주석(테이블, 열 등)으로 사용됩니다.
 
-Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다.
+Enum의 경우 시작 :Begin, 끝점은 :End여야 합니다. (:Begin은 -b 커맨드라인 명령으로, :End는 -r (행), -z (컬럼) 커맨드 라인 명령으로 재지정 가능합니다)
 
-테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다.
+테이블의 경우 첫 번째 행은 열 이름이어야 하며 끝점은 :End로 지정해야 합니다. (:End는 -r (행), -z (컬럼) 커맨드 라인 명령으로 재지정 가능합니다)
+
 두 번째 행은 데이터 타입으로 $로 다른 테이블의 Id 컬럼과 연결이 가능 합니다. 
 
 # Excel Keyword Introduce (English)
@@ -215,7 +216,7 @@ execute command name is `excel2dotnet`
 execute file name `excel2dotnet` instead of `ExcelCli`
 
 ### all options
-- <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelToDotnet/Options.cs>
+- <https://github.com/elky84/ExcelToDotnet/blob/main/ExcelToDotnet/Cli/Options.cs>
 
 ## Version History
 
