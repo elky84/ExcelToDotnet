@@ -220,6 +220,10 @@ execute file name `excel2dotnet` instead of `ExcelCli`
 
 ## Version History
 
+### v1.0.40
+
+- upgrade Dotnet runtime version to 9.0
+
 ### v1.0.39
 
 - changes package structures.
